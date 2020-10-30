@@ -49,6 +49,8 @@ def signup(request):
     return render(request, 'users/signup.html', context)
 
 
+def profile(request):
+    return render(request, 'users/profile.html')
 # @login_required(login_url='login')
 # def trial(request):
 #     context = {}
