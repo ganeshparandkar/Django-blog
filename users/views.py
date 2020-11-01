@@ -6,6 +6,7 @@ from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+import django.contrib.auth
 # Create your views here.
 
 
@@ -29,12 +30,11 @@ from django.contrib.auth.decorators import login_required
 
 #     logout(request)
 #     return redirect('login')
+#
 
 
 def signup(request):
-    # if request.user.is_authenticated:
-    #     return redirect('blog/base.html')
-    # else:
+
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -43,14 +43,22 @@ def signup(request):
             # to get username from form
             user = form.cleaned_data.get('username')
             messages.success(request, f'account was created for ' + user)
-            return redirect('blog-home')
+            return redirect('login')
 
     context = {'form': form}
     return render(request, 'users/signup.html', context)
 
 
+@login_required(login_url='login')
 def profile(request):
     return render(request, 'users/profile.html')
+
+
+def start(request):
+    if request.user.is_authenticated:
+        return redirect('blog-home')
+    else:
+        return redirect('login')
 # @login_required(login_url='login')
 # def trial(request):
 #     context = {}
