@@ -59,7 +59,8 @@ def start(request):
         return redirect('blog-home')
     else:
         return redirect('login')
-# @login_required(login_url='login')
-# def trial(request):
-#     context = {}
-#     return render(request, 'blog/base.html', context)
+
+
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
